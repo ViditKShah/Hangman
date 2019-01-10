@@ -25,7 +25,15 @@ namespace Hangman
         static void AskForUsersName()
         {
             Console.WriteLine("Enter your name:");
-            name = Console.ReadLine();
+            string input = Console.ReadLine();
+
+            if (input.Length >= 2)
+                name = input;
+            else
+            {
+                // The user entered an invalid name
+                AskForUsersName();
+            }
         }
 
         private static void PlayGame()
