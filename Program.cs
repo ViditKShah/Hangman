@@ -7,6 +7,7 @@ namespace Hangman
     class Program
     {
         static string correctWord = "hangman";
+        static char[] letters;
         static string name;
         static int numberOfGuesses;
 
@@ -19,7 +20,10 @@ namespace Hangman
 
         private static void StartGame()
         {
-            Console.WriteLine("Starting the game...");
+            letters = new char[correctWord.Length];
+            for (int i = 0; i < correctWord.Length; i++)
+                letters[i] = '-';
+
             AskForUsersName();
         }
 
@@ -39,20 +43,35 @@ namespace Hangman
 
         private static void PlayGame()
         {
-            DisplayMaskedWord();
-            AskForLetter();
+            do
+            {
+                Console.Clear();
+                DisplayMaskedWord();
+                char guessedLetter = AskForLetter();
+                CheckLetter(guessedLetter);
+            } while (correctWord != new string(letters));
+
+            Console.Clear();
+        }
+
+        private static void CheckLetter(char guessedLetter)
+        {
+            for (int i = 0; i < correctWord.Length; i++)
+            {
+                if (guessedLetter == correctWord[i])
+                    letters[i] = guessedLetter;
+            }
         }
 
         static void DisplayMaskedWord()
         {
-            foreach (char c in correctWord)
-            {
-                Console.Write('-');
-            }
+            foreach (char c in letters)
+                Console.Write(c);
+
             Console.WriteLine();
         }
 
-        static void AskForLetter()
+        static char AskForLetter()
         {
             string input;
             do
@@ -62,6 +81,8 @@ namespace Hangman
             } while (input.Length != 1);
 
             numberOfGuesses++;
+
+            return input[0];
         }
 
         private static void EndGame()
