@@ -9,7 +9,7 @@ namespace Hangman
         static string correctWord = "hangman";
         static char[] letters;
         static string name;
-        static int numberOfGuesses;
+        static List<char> guessedLetters = new List<char>();
 
         static void Main(string[] args)
         {
@@ -80,16 +80,19 @@ namespace Hangman
                 input = Console.ReadLine();
             } while (input.Length != 1);
 
-            numberOfGuesses++;
+            var letter = input[0];
 
-            return input[0];
+            if (!guessedLetters.Contains(letter))
+                guessedLetters.Add(letter);
+
+            return letter;
         }
 
         private static void EndGame()
         {
             Console.WriteLine("Game over...");
             Console.WriteLine($"Thanks for playing {name}");
-            Console.WriteLine($"Guesses:{numberOfGuesses}");
+            Console.WriteLine($"Guesses:{guessedLetters.Count}");
         }
     }
 }
