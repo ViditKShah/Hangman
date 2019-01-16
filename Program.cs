@@ -6,7 +6,7 @@ namespace Hangman
 {
     class Program
     {
-        static string correctWord = "hangman";
+        static string correctWord;
         static char[] letters;
         static Player player;
 
@@ -19,6 +19,11 @@ namespace Hangman
 
         private static void StartGame()
         {
+            var words = File.ReadAllLines(@"C:\Users\vishah\Desktop\Words.txt");
+
+            Random random = new Random();
+            correctWord = words[random.Next(0, words.Length)];
+
             letters = new char[correctWord.Length];
             for (int i = 0; i < correctWord.Length; i++)
                 letters[i] = '-';
@@ -92,8 +97,8 @@ namespace Hangman
 
         private static void EndGame()
         {
-            Console.WriteLine("Game over...");
-            Console.WriteLine($"Thanks for playing {player.Name}");
+            Console.WriteLine("Congratulations!");
+            Console.WriteLine($"Thanks for playing {player.Name}!");
             Console.WriteLine($"Guesses:{player.GuessedLetters.Count} Score:{player.Score}");
         }
     }
