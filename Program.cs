@@ -12,14 +12,29 @@ namespace Hangman
 
         static void Main(string[] args)
         {
-            StartGame();
-            PlayGame();
-            EndGame();
+            try
+            {
+                StartGame();
+                PlayGame();
+                EndGame();
+            }
+            catch
+            {
+                Console.WriteLine("Oops, something went wrong...");
+            }
         }
 
         private static void StartGame()
         {
-            var words = File.ReadAllLines(@"C:\Users\vishah\Desktop\Words.txt");
+            string[] words;
+            try
+            {
+                words = File.ReadAllLines(@"C:\Users\vishah\Desktop\Words.txt");
+            }
+            catch
+            {
+                words = new string[] { "wordone", "wordtwo", "wordthree" };
+            }
 
             Random random = new Random();
             correctWord = words[random.Next(0, words.Length)];
